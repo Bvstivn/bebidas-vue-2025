@@ -20,20 +20,20 @@ export const useBebidasStore = defineStore('bebidas', () => {
     const recetas = ref([]);
     const receta = ref({});
 
-    onMounted( async () => {
-        const {data: drinks} = await APIService.obtenerCategorias();
-        categorias.value = drinks;
-    });
+onMounted(async () => {
+    categorias.value = await APIService.obtenerCategorias();
+    console.log("Categorias Store Bebidas", categorias.value);   
+});
 
-    async function obtenerRecetas(){
-        const {data: {drinks}} = await APIService.buscarRecetas();
-    }
+async function obtenerRecetas(){
+    recetas.value = await APIService.buscarRecetas(busqueda);
+}
 
-    async function seleccionarBebida(id){
-        const {data: {drinks}} = await APIService.buscarReceta(id);
-        receta.value = drinks[0];
-        modal$.handleClickModal();
-    }
+async function seleccionarBebida(id){
+    const drinks = await APIService.buscarReceta(id);
+    receta.value = drinks[0];
+    modal$.handleClickModal();
+}
 
     const noRecetas = computed(() => recetas.value.length === 0);
 

@@ -1,14 +1,19 @@
 //Lib
-import api from "@/lib/axios";
+import api from "../lib/axios";
 
 export default {
-    obtenerCategorias(){
-        return api('/list.php?c=list');
+    async obtenerCategorias(){
+        const { data } = await api('/list.php?c=list');
+        return data.drinks;
     },
-    buscarRecetas(busqueda){
-        return api(`/filter.php?c=${busqueda.categoria}&i=${busqueda.nombre}`);
+
+    async buscarRecetas(busqueda){
+        const { data } = await api(`/filter.php?c=${busqueda.categoria}&i=${busqueda.nombre}`);
+        return data.drinks;
     },
-    buscarReceta(id){
-        return api(`lookup.php?i=${id}`);
+
+    async buscarReceta(id){
+        const { data } = await api(`lookup.php?i=${id}`);
+        return data.drinks;
     }
 }
